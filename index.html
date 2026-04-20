@@ -134,79 +134,47 @@
     }
   }
 
-  /* 手機 / 平板 */
-  @media (max-width: 1024px) {
-    #stage {
-      min-height: 100dvh;
+  /* ======= 手機與平板 (無論直向或橫向) ======= */
+    @media (max-width: 1024px) {
+      
+      html, body {
+        overflow-y: auto !important; /* 1. 絕對保證可以上下滑動 */
+        height: auto !important;
+        display: block !important;   /* 取消 body flex，防止蘋果手機亂縮放 */
+      }
+
+      #page-wrap {
+        display: block;
+        padding: 40px 0; /* 2. 上下留出黑邊，證明它不是滿版全螢幕 */
+      }
+
+      /* 3. 最關鍵：強制覆蓋 Unity 自動加上的全螢幕死鎖屬性 */
+      #unity-container, .unity-mobile {
+        position: relative !important;
+        top: 0 !important;
+        left: 0 !important;
+        transform: none !important;
+        
+        /* 4. 控制大小：寬度佔螢幕 90%，高度自動鎖死 16:10 比例 */
+        width: 78vw !important; 
+        height: auto !important;
+        aspect-ratio: 960 / 600 !important; 
+        margin: 0 auto !important; /* 確保遊戲在正中間 */
+      }
+
+      #unity-canvas {
+        /* 5. 防裁切：絕對定位填滿容器，絕不變形 */
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      #unity-footer {
+        display: none !important; /* 手機版直接隱藏底條，避免干擾畫面 */
+      }
     }
-  }
-
-  /* 手機直向：維持比例，不裁切，可往下滑 */
-  @media (orientation: portrait) and (max-width: 1024px) {
-    #stage {
-      align-items: flex-start;
-      padding-top: max(8px, env(safe-area-inset-top));
-      padding-bottom: max(16px, env(safe-area-inset-bottom));
-    }
-
-    #unity-container {
-      width: calc(100vw - 16px);
-      aspect-ratio: 16 / 9;
-    }
-
-    #ending-video-overlay {
-      left: 6%;
-      top: 24%;
-      width: 30%;
-      height: 16%;
-    }
-  }
-
-  /* 手機橫向：盡量吃滿畫面，維持比例 */
-  @media (orientation: landscape) and (max-width: 1024px) {
-    #stage {
-      align-items: center;
-      padding: 6px 0;
-    }
-
-    #unity-container {
-      width: min(calc(100vw - 20px), calc((100dvh - 12px) * 16 / 9));
-      aspect-ratio: 16 / 9;
-    }
-
-    #ending-video-overlay {
-      left: 6%;
-      top: 23%;
-      width: 28%;
-      height: 30%;
-    }
-  }
-
-  /* 小手機橫向再多留一點空間，避免被瀏覽器工具列吃掉 */
-  @media (max-width: 932px) and (orientation: landscape) {
-    #unity-container {
-      width: min(calc(100vw - 40px), calc((100dvh - 26px) * 16 / 9));
-    }
-  }
-
-  #stage:fullscreen,
-  #stage:-webkit-full-screen {
-    width: 100vw;
-    height: 100dvh;
-    background: #000;
-    padding: 0;
-  }
-
-  #stage:fullscreen #unity-container,
-  #stage:-webkit-full-screen #unity-container {
-    position: absolute;
-    width: min(100vw, calc(100dvh * 16 / 9));
-    aspect-ratio: 16 / 9;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    margin: 0;
-  }
 </style>
 </head>
 
