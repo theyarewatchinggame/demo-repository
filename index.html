@@ -16,7 +16,7 @@
     min-height: 100%;
     background: #000;
     overflow-x: hidden;
-    overflow-y: auto; /* 保留上下滑動 */
+    overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
 
@@ -42,13 +42,15 @@
   }
 
   #unity-container {
-  position: relative;
-  width: min(calc(100vw - 24px), calc((100dvh - 32px) * 960 / 600));
-  aspect-ratio: 960 / 600;
-  margin: 0 auto;
-  background: #000;
-  overflow: hidden;
-}
+    position: relative !important;
+    width: min(calc(100vw - 24px), calc((100vh - 32px) * 960 / 600));
+    width: min(calc(100vw - 24px), calc((100dvh - 32px) * 960 / 600));
+    aspect-ratio: 960 / 600;
+    height: auto !important;
+    margin: 0 auto;
+    background: #000;
+    overflow: hidden;
+  }
 
   #unity-canvas {
     width: 100% !important;
@@ -119,65 +121,48 @@
     background: #000;
   }
 
-  /* 桌機 */
-  @media (min-width: 1025px) {
+  @media (max-width: 1024px) {
+    html, body {
+      overflow-y: auto !important;
+      height: auto !important;
+      display: block !important;
+    }
+
     #stage {
       min-height: 100vh;
+      min-height: 100dvh;
       align-items: center;
-      padding: 12px 0 20px;
+      padding: 20px 0 28px;
     }
 
-    #unity-container {
-  position: relative;
-  width: min(calc(100vw - 24px), calc((100dvh - 32px) * 960 / 600));
-  aspect-ratio: 960 / 600;
-  margin: 0 auto;
-  background: #000;
-  overflow: hidden;
-}
+    #unity-container,
+    .unity-mobile {
+      position: relative !important;
+      top: auto !important;
+      left: auto !important;
+      transform: none !important;
+
+      width: min(calc(100vw - 24px), calc((100dvh - 48px) * 960 / 600)) !important;
+      aspect-ratio: 960 / 600 !important;
+      height: auto !important;
+
+      margin: 0 auto !important;
+      background: #000 !important;
+      overflow: hidden !important;
+    }
+
+    #unity-canvas,
+    canvas.unity-mobile {
+      position: relative !important;
+      width: 100% !important;
+      height: 100% !important;
+      display: block !important;
+    }
+
+    #unity-footer {
+      display: none !important;
+    }
   }
-
-  /* ======= 手機與平板 (無論直向或橫向) ======= */
-    @media (max-width: 1024px) {
-      
-      html, body {
-        overflow-y: auto !important; /* 1. 絕對保證可以上下滑動 */
-        height: auto !important;
-        display: block !important;   /* 取消 body flex，防止蘋果手機亂縮放 */
-      }
-
-      #page-wrap {
-        display: block;
-        padding: 40px 0; /* 2. 上下留出黑邊，證明它不是滿版全螢幕 */
-      }
-
-      /* 3. 最關鍵：強制覆蓋 Unity 自動加上的全螢幕死鎖屬性 */
-      #unity-container, .unity-mobile {
-        position: relative !important;
-        top: 0 !important;
-        left: 0 !important;
-        transform: none !important;
-        
-        /* 4. 控制大小：寬度佔螢幕 90%，高度自動鎖死 16:10 比例 */
-        width: 78vw !important; 
-        height: auto !important;
-        aspect-ratio: 960 / 600 !important; 
-        margin: 0 auto !important; /* 確保遊戲在正中間 */
-      }
-
-      #unity-canvas {
-        /* 5. 防裁切：絕對定位填滿容器，絕不變形 */
-        position: absolute !important;
-        top: 0 !important;
-        left: 0 !important;
-        width: 100% !important;
-        height: 100% !important;
-      }
-
-      #unity-footer {
-        display: none !important; /* 手機版直接隱藏底條，避免干擾畫面 */
-      }
-    }
 </style>
 </head>
 
