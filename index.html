@@ -132,11 +132,9 @@
     #stage {
       min-height: 100vh;
       min-height: 100dvh;
-      /* 確保手機版一樣使用 flex 置中，並移除多餘的 padding 讓畫面更大 */
-      display: flex !important;
-      justify-content: center !important;
-      align-items: center !important;
-      padding: 0 !important; 
+      /* 恢復原本的 padding 設定，給予畫面上下呼吸空間 */
+      align-items: center;
+      padding: 20px 0 28px !important; 
     }
 
     #unity-container,
@@ -146,12 +144,12 @@
       left: auto !important;
       transform: none !important;
 
-      /* 修正 2：移除多餘的像素扣除 (24px, 48px)，讓寬度與高度盡可能達到 100% 撐滿畫面 */
-      width: min(100%, calc(100dvh * 16 / 9)) !important;
+      /* 放棄高度限制，單純用寬度扣除 24px 邊距，讓使用者可以上下滑動 */
+      width: calc(100% - 24px) !important;
       aspect-ratio: 16 / 9 !important;
       height: auto !important;
 
-      margin: auto !important;
+      margin: 0 auto !important;
       background: #000 !important;
       overflow: hidden !important;
     }
