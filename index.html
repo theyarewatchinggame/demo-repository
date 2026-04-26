@@ -43,12 +43,12 @@
 
   #unity-container {
     position: relative !important;
-    /* 已將 960 / 600 修改為 16 / 9 */
-    width: min(calc(100vw - 24px), calc((100vh - 32px) * 16 / 9));
-    width: min(calc(100vw - 24px), calc((100dvh - 32px) * 16 / 9));
+    /* 修正 1：將 100vw 改為 100%，避免捲軸寬度導致畫面無法置中 */
+    width: min(calc(100% - 24px), calc((100vh - 32px) * 16 / 9));
+    width: min(calc(100% - 24px), calc((100dvh - 32px) * 16 / 9));
     aspect-ratio: 16 / 9;
     height: auto !important;
-    margin: 0 auto;
+    margin: auto; /* 確保上下左右皆由 flex 完美置中 */
     background: #000;
     overflow: hidden;
   }
@@ -132,8 +132,11 @@
     #stage {
       min-height: 100vh;
       min-height: 100dvh;
-      align-items: center;
-      padding: 20px 0 28px;
+      /* 確保手機版一樣使用 flex 置中，並移除多餘的 padding 讓畫面更大 */
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      padding: 0 !important; 
     }
 
     #unity-container,
@@ -143,12 +146,12 @@
       left: auto !important;
       transform: none !important;
 
-      /* 手機版的計算公式也同步修改為 16 / 9 */
-      width: min(calc(100vw - 24px), calc((100dvh - 48px) * 16 / 9)) !important;
+      /* 修正 2：移除多餘的像素扣除 (24px, 48px)，讓寬度與高度盡可能達到 100% 撐滿畫面 */
+      width: min(100%, calc(100dvh * 16 / 9)) !important;
       aspect-ratio: 16 / 9 !important;
       height: auto !important;
 
-      margin: 0 auto !important;
+      margin: auto !important;
       background: #000 !important;
       overflow: hidden !important;
     }
